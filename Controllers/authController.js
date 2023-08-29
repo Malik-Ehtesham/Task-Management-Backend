@@ -205,7 +205,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   // 3) Update changedPasswordAt property for the user
 
-  // 4) Log the use in, send JWT
+  // 4) Log the user in, send JWT
 
   createSendToken(user, 200, res);
 });

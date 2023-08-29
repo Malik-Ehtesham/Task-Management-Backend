@@ -17,6 +17,12 @@ const taskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // Add a reference to the user
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference the User model
+    required: true,
+  },
   completed: {
     type: Boolean,
     // required: true,

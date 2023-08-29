@@ -9,6 +9,7 @@ exports.createTask = catchAsync(async (req, res, next) => {
     description,
     dueDate,
     priority,
+    user: req.user._id,
   });
   res.status(201).json(newTask);
 });
@@ -36,11 +37,11 @@ exports.getTaskById = catchAsync(async (req, res) => {
 exports.updateTaskById = catchAsync(async (req, res) => {
   const taskId = req.params.id;
 
-  const { title, description, dueDate, priority } = req.body;
+  const { title, description, dueDate, priority, completed } = req.body;
 
   const updatedTask = await Task.findByIdAndUpdate(
     taskId,
-    { title, description, dueDate, priority },
+    { title, description, dueDate, priority, completed },
     { new: true }
   );
 
@@ -49,6 +50,15 @@ exports.updateTaskById = catchAsync(async (req, res) => {
   }
 
   res.status(200).json(updatedTask);
+});
+
+// Controller for fetching all tasks of the current user
+exports.getAllTasksForCurrentUser = catchAsync(async (req, res) => {
+  const userId = req.user._id;
+
+  const tasks = await Task.find({ user: userId });
+
+  res.status(200).json(tasks);
 });
 
 // Controller for deleting a task by ID
